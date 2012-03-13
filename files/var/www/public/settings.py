@@ -1,6 +1,6 @@
 # Django settings for www_example_com project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
