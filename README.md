@@ -80,6 +80,17 @@ We recomend you use this location to store scripts that do not need to be public
 
 This is the default location for all your cron jobs.
 
+###Python virtual environment 
+
+The django environment manage.py appends the standard sys.path to first include modules from the virtual environment /mnt/django-virt/.  If you wish to install specific version of python module:
+
+source /mnt/django-virt/bin/activate
+
+pip install <package_name>
+
+initctl restart django-fastcgi
+
+((Please perform an pip freeze of the environment to a requirements README))
 
 ##Scripting
 If you wish to install new dependancies or preform extra actions on the server at boot time we recomend you build a script. For installing new dependancies using **apt-get** use **~/c4-bootstrap-django/scripts/pre.d/XX-mynewscript.sh** and then re-run **./bootstrap.sh** to install those dependancies. Doing this will ensure that when a clean system is built the dependancies get installed at bootstrap. If you wish to preform actions on files/folders or bounce a service after your environment is setup use the **~/c4-bootstrap-django/scripts/post.d/** folder.

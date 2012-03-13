@@ -1,0 +1,63 @@
+# vim: set ts=4:
+fastcgi_cache_key         "$scheme$host$uri$is_args$args";
+fastcgi_cache_path        /mnt/www/cache levels=1:2 inactive=24h keys_zone=disk_cache:1024m;
+
+upstream appservers {
+        server 127.0.0.1:9000 max_fails=2 fail_timeout=10;
+}
+
+set_real_ip_from 10.0.0.0/8;
+real_ip_header X-Forwarded-For;
+
+
+log_format cache '$remote_addr - $remote_user [$time_local] '
+        'Upstream-Cache-Status: $upstream_cache_status '
+        'Cache-Control: $upstream_http_cache_control '
+        'Expires: $upstream_http_expires '
+        '"$request" ($status) '
+        '"$http_user_agent" ';
+
+root /var/www/django/static;
+
+access_log              /mnt/www/logs/nginx-access.log;
+error_log               /mnt/www/logs/nginx-error.log;
+open_log_file_cache     max=1000 inactive=20s min_uses=2 valid=1m;
+
+server_tokens   off;
+
+server {
+  listen 80;
+
+  index     index.html index.htm;
+
+  location ~ /\. {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  location / {
+    try_files $uri @django;
+  }
+
+  location @django {
+    fastcgi_pass            appservers;
+
+    fastcgi_param PATH_INFO $fastcgi_script_name;
+    fastcgi_param REQUEST_METHOD $request_method;
+    fastcgi_param QUERY_STRING $query_string;
+    fastcgi_param CONTENT_TYPE $content_type;
+    fastcgi_param CONTENT_LENGTH $content_length;
+    fastcgi_pass_header Authorization;
+
+    fastcgi_cache             disk_cache;
+    fastcgi_cache_key         $scheme$proxy_host$uri$is_args$args;
+    fastcgi_cache_use_stale   updating invalid_header timeout error;
+    fastcgi_cache_valid       200 301 302         10m;
+    fastcgi_cache_valid       404             1m;
+
+    access_log              /mnt/www/logs/nginx-cache.log cache;
+    access_log              /mnt/www/logs/nginx-access.log;
+  }
+}
+
