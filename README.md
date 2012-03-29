@@ -61,10 +61,21 @@ c4-bootstrap-django is set up to monitor the following directories:
     /etc/nginx/
     /etc/cron.d/
     /var/www/
+    /mnt/django-virt
 
 Changes in these directories will be pulled back into your git repo when running repack. To add more locations just edit the __scripts/repack/working_dirs__ file.
 
 NB : You should set your github repo to private to avoid exposing your private code and configs to everyone!
+
+##Working in your Python virtual environment
+
+The django environment manage.py appends the standard sys.path to first include modules from the virtual environment /mnt/django-virt/. If you wish to install specific version of python module:
+
+source /mnt/django-virt/bin/activate
+
+pip install
+
+initctl restart django-fastcgi
 
 ##More info
 

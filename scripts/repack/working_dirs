@@ -1,2 +1,3 @@
 /var/www
 /etc/cron.d
+/mnt/django-virt
