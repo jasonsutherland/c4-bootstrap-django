@@ -73,15 +73,15 @@ NB : You should set your github repo to private to avoid exposing your private c
 
 The django environment manage.py appends the standard sys.path to first include modules from the virtual environment:
 
-/mnt/django-virt/ 
+    /mnt/django-virt/ 
 
-If you wish to install specific version of python module:
+If you wish to install a specific version of this python module:
 
-source /mnt/django-virt/bin/activate
+    source /mnt/django-virt/bin/activate
 
-pip install
+    pip install
 
-initctl restart django-fastcgi
+    initctl restart django-fastcgi
 
 ##More info
 
