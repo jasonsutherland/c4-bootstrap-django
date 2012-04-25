@@ -47,7 +47,7 @@ If you have never run repack.sh before (see c4-bootstap documentation), when you
 
 If you have been using repack.sh to track your changes in github then your site will be fully restored and running when you browse to your URL/IP.
 
-##HOWTO repack
+##HOW TO repack
 
 While developing your site the contents of the site may change frequently. repack.sh is designed to help you track those changes in github and all you to rebuild the server to a given point in time. Its good practice to use repack.sh regularly to avoid loss of work, especially if you frequently add content to your site.
 
