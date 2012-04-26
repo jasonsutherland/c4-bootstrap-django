@@ -11,6 +11,7 @@ You will need to install:
     git-core
 
 To do so, run:
+
     apt-get update
     apt-get install git-core
 
